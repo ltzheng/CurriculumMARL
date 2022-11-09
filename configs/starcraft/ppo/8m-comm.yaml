@@ -1,0 +1,41 @@
+starcraft-8m-comm-ppo:
+  run: PPO-comm
+  checkpoint_freq: 100
+  checkpoint_at_end: true
+  local_dir: ray_results
+  stop:
+    timesteps_total: 1000000
+  config:
+    seed: 123
+    framework: torch
+    callbacks: PvEMetrics
+
+    env: starcraft_pve_com
+    env_config:
+      map_name: 8m
+
+    num_workers: 36
+    num_cpus_for_driver: 1
+    num_envs_per_worker: 1
+    num_cpus_per_worker: 1
+    num_gpus: 1
+    num_gpus_per_worker: 0
+    evaluation_num_workers: 4
+    evaluation_interval: 10  # iterations
+    evaluation_duration: 20
+    evaluation_duration_unit: episodes
+    evaluation_parallel_to_training: true
+    disable_env_checking: true
+
+    evaluation_config:
+      env_config:
+        map_name: 8m
+
+    model:
+      custom_model: att_com_action_mask_model
+      custom_action_dist: hom_multi_action
+      custom_model_config:
+        encoder_hidden_layers: [256, 256]
+        num_heads: 8
+        head_dim: 64
+        decoder_hidden_layers: [256]

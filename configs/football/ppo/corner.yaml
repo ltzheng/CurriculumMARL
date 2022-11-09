@@ -1,0 +1,63 @@
+gfootball-corner-ppo:
+  run: PPO
+  checkpoint_freq: 200
+  checkpoint_at_end: true
+  local_dir: ray_results
+  stop:
+    timesteps_total: 2000000
+  config:
+    seed: 0
+    framework: torch
+    callbacks: PvEMetrics
+
+    env: gfootball_pve
+    env_config:
+      env_name: academy_corner
+      stacked: false
+      rewards: scoring
+      write_goal_dumps: false
+      write_full_episode_dumps: false
+      render: false
+      write_video: false
+      dump_frequency: 200
+      representation: simple115v2
+      number_of_left_players_agent_controls: 5
+      logdir: dumps
+      other_config_options:
+        action_set: default  # "default": action_set_v1 (19), "v2": action_set_v2 (19 + 1 built-in ai)
+      in_evaluation: false
+
+    num_workers: 32
+    num_cpus_for_driver: 1
+    num_envs_per_worker: 1
+    num_cpus_per_worker: 1
+    num_gpus: 1
+    num_gpus_per_worker: 0
+    evaluation_num_workers: 8
+    evaluation_interval: 5  # iterations
+    evaluation_duration: 100
+    evaluation_duration_unit: episodes
+    evaluation_parallel_to_training: true
+    disable_env_checking: true
+
+    evaluation_config:
+      env_config:
+        env_name: academy_corner
+        stacked: false
+        rewards: scoring
+        write_goal_dumps: false
+        write_full_episode_dumps: false
+        render: false
+        write_video: false
+        dump_frequency: 10
+        representation: simple115v2
+        number_of_left_players_agent_controls: 5
+        logdir: eval_dumps
+        other_config_options:
+          action_set: default  # "default": action_set_v1 (19), "v2": action_set_v2 (19 + 1 built-in ai)
+        in_evaluation: true
+
+    multiagent:
+      policies: ["shared_policy"]
+      policy_mapping_fn: parameter_sharing
+      policies_to_train: ["shared_policy"]

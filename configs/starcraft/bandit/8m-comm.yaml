@@ -1,0 +1,56 @@
+starcraft-8m-contextual-bandit-comm-ppo:
+  run: PPO-comm-curriculum
+  checkpoint_freq: 100
+  checkpoint_at_end: true
+  local_dir: ray_results
+  stop:
+    timesteps_total: 1000000
+  config:
+    seed: 0
+    framework: torch
+    callbacks: PvEMetrics
+
+    teacher_config:
+      name: bandit
+      num_contexts: 3
+      gamma: 0.3
+      update_interval: 20
+      num_agents: [2, 6, 8]
+      min_rew: 0
+      max_rew: 20
+
+    env: starcraft_pve_com
+    env_config:
+      map_name: 8m
+      heuristic_ai: true
+      heuristic_rest: true
+      max_num_agents: 8
+      in_evaluation: false
+
+    num_workers: 1
+    num_cpus_for_driver: 1
+    num_envs_per_worker: 1
+    num_cpus_per_worker: 1
+    num_gpus: 1
+    num_gpus_per_worker: 0
+    evaluation_num_workers: 4
+    evaluation_interval: 5  # iterations
+    evaluation_duration: 20
+    evaluation_duration_unit: episodes
+    evaluation_parallel_to_training: false
+    disable_env_checking: true
+
+    evaluation_config:
+      env_config:
+        map_name: 8m
+        max_num_agents: 8
+        in_evaluation: true
+
+    model:
+      custom_model: invariant_att_com_action_mask_model
+      custom_action_dist: hom_multi_action
+      custom_model_config:
+        encoder_hidden_layers: [256, 256]
+        num_heads: 8
+        head_dim: 64
+        decoder_hidden_layers: [256]

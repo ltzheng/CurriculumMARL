@@ -1,0 +1,88 @@
+gfootball-corner-contextual-bandit-hrl-comm:
+  run: PPO-hrl-curriculum
+  checkpoint_freq: 200
+  checkpoint_at_end: true
+  local_dir: ray_results
+  stop:
+    timesteps_total: 5000000
+  config:
+    seed: 18105
+    framework: torch
+    callbacks: PvEMetrics
+
+    teacher_config:
+      name: bandit
+      num_contexts: 3
+      gamma: 0.3
+      num_agents: [1, 3, 5]
+      min_rew: -1
+      max_rew: 1
+
+    env: gfootball_curriculum_hrl_com
+    env_config:
+      env_name: academy_corner
+      stacked: false
+      rewards: scoring
+      write_goal_dumps: false
+      write_full_episode_dumps: false
+      render: false
+      write_video: false
+      dump_frequency: 200
+      representation: simple115v2
+      number_of_left_players_agent_controls: 1
+      logdir: dumps
+      other_config_options:
+        action_set: default  # "default": action_set_v1 (19), "v2": action_set_v2 (19 + 1 built-in ai)
+      in_evaluation: false
+      max_num_agents: 5
+      hrl_config:
+        context_size: 5
+        context_type: discrete
+        high_level_interval: 10
+
+    num_workers: 32
+    num_cpus_for_driver: 1
+    num_envs_per_worker: 1
+    num_cpus_per_worker: 1
+    num_gpus: 1
+    num_gpus_per_worker: 0
+    evaluation_num_workers: 8
+    evaluation_interval: 5  # iterations
+    evaluation_duration: 20
+    evaluation_duration_unit: episodes
+    evaluation_parallel_to_training: false
+    disable_env_checking: true
+
+    evaluation_config:
+      env_config:
+        env_name: academy_corner
+        stacked: false
+        rewards: scoring
+        write_goal_dumps: false
+        write_full_episode_dumps: false
+        render: false
+        write_video: false
+        dump_frequency: 10
+        representation: simple115v2
+        number_of_left_players_agent_controls: 5
+        logdir: eval_dumps
+        other_config_options:
+          action_set: default  # "default": action_set_v1 (19), "v2": action_set_v2 (19 + 1 built-in ai)
+        in_evaluation: true
+        max_num_agents: 5
+        hrl_config:
+          context_size: 5
+          context_type: discrete
+          high_level_interval: 10
+
+    high_level_policy_config:
+      model:
+        custom_model: invariant_att_com_model
+        custom_action_dist: hom_multi_action
+        custom_model_config:
+          encoder_hidden_layers: [256, 256]
+          num_heads: 8
+          head_dim: 64
+          decoder_hidden_layers: [256]
+
+    # For other configurations, see algorithms/ppo_hrl.py
