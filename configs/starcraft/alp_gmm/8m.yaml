@@ -36,7 +36,7 @@ starcraft-alp-gmm-ppo:
     num_cpus_per_worker: 1
     num_gpus: 1
     num_gpus_per_worker: 0
-    evaluation_num_workers: 4
+    evaluation_num_workers: 1
     evaluation_interval: 5  # iterations
     evaluation_duration: 20
     evaluation_duration_unit: episodes

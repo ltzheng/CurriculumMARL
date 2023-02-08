@@ -1,0 +1,18 @@
+gfootball @ git+https://github.com/ltzheng/football.git
+gym==0.15.4
+matplotlib
+numpy==1.24.2
+pandas==1.5.3
+PySC2==4.0.0
+PyYAML==5.1.2
+scikit-learn==0.24.2
+scipy==1.5.4
+seaborn==0.11.1
+six==1.13.0
+SMAC @ git+https://github.com/oxwhirl/smac.git@845b1173c8e38b37f4c67c5a03c6614916fb2f38
+smmap==5.0.0
+tensorboard==2.11.2
+tensorboard-data-server==0.6.1
+tensorboard-plugin-wit==1.8.1
+tensorboardX==2.5.1
+tqdm==4.38.0

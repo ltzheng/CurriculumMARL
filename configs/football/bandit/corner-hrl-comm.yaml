@@ -76,6 +76,7 @@ gfootball-corner-contextual-bandit-hrl-comm:
           high_level_interval: 10
 
     high_level_policy_config:
+      framework: torch
       model:
         custom_model: invariant_att_com_model
         custom_action_dist: hom_multi_action
@@ -84,5 +85,8 @@ gfootball-corner-contextual-bandit-hrl-comm:
           num_heads: 8
           head_dim: 64
           decoder_hidden_layers: [256]
+
+    low_level_policy_config:
+      framework: torch
 
     # For other configurations, see algorithms/ppo_hrl.py
