@@ -46,17 +46,7 @@ python -m pip install torch==1.9.1+cu111 torchvision==0.10.1+cu111 torchaudio==0
 
 Training Examples: 
 ```bash
-python train.py -f configs/football/bandit/corner.yaml
-python train.py -f configs/football/bandit/corner-hrl-comm.yaml
-python train.py -f configs/football/bandit/corner-no-context.yaml
-python train.py -f configs/football/vacl/corner.yaml
-python train.py -f configs/football/alp_gmm/corner.yaml
-python train.py -f configs/football/uniform/corner.yaml
 python train.py -f configs/football/ppo/corner.yaml
-
-python train.py -f configs/starcraft/alp_gmm/8m.yaml
-python train.py -f configs/starcraft/uniform/8m.yaml
-python train.py -f configs/starcraft/ppo/8m.yaml
 ```
 
 ## Cite Our Paper
@@ -64,11 +54,10 @@ python train.py -f configs/starcraft/ppo/8m.yaml
 Please cite our paper if you've found this repository useful:
 
 ```
-@misc{
-    wang2023towards,
-    title={Towards Skilled Population Curriculum for {MARL}},
-    author={Rundong Wang and Longtao Zheng and Wei Qiu and Bowei He and Bo An and Zinovi Rabinovich and Yujing Hu and Yingfeng Chen and Tangjie Lv and Changjie Fan},
-    year={2023},
-    url={https://openreview.net/forum?id=GbsvQSaJV-6}
+@article{wang2023towards,
+  title={Towards Skilled Population Curriculum for Multi-Agent Reinforcement Learning},
+  author={Wang, Rundong and Zheng, Longtao and Qiu, Wei and He, Bowei and An, Bo and Rabinovich, Zinovi and Hu, Yujing and Chen, Yingfeng and Lv, Tangjie and Fan, Changjie},
+  journal={arXiv preprint arXiv:2302.03429},
+  year={2023}
 }
 ```
